@@ -18,10 +18,13 @@ describe('simple database', () => {
 
   it ('should get the id', async () => {
     const dataBase = new SimpleDb(TEST_DIR);
-    const object = { text: 'hakuna matata' };
-    await dataBase;
-    const file = await dataBase.get(object.id);
-    return expect(file).toEqual(object);
+    const object = { 
+      id: '1',
+      text: 'hakuna matata' 
+    };
+    const srcPath = path.join(TEST_DIR, `${object.id}.txt`);
+    await fs.writeFile(srcPath, JSON.stringify(object));
+    return expect(dataBase.get(object.id)).toEqual(object);
 
   });
 
