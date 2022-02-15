@@ -33,7 +33,28 @@ describe('simple database', () => {
     return dataBase
       .save(object)
       .then(() => expect(object.id).toEqual(expect.any(String)));
+  });
+
+  it('should get all files', async () => {
+    const db = new SimpleDb(TEST_DIR);
+    const obj1 = { text: 'hakuna matata' };
+    const obj2 = { text: 'be our guest' };
+    
+    const expectation = [{
+      id: expect.any(String),
+      text: expect.any(String),
+    },
+    {
+      id: expect.any(String),
+      text: expect.any(String),
+    }
+    ];
 
 
+    await db
+      .save(obj1)
+      .then(() => db.save(obj2))
+      .then(() => db.getAll())
+      .then((files) => expect(files).toEqual(expectation));
   });
 });
