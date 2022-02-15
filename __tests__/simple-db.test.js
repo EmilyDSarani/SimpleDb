@@ -50,7 +50,6 @@ describe('simple database', () => {
     }
     ];
 
-
     return db
       .save(obj1)
       .then(() => db.save(obj2))
