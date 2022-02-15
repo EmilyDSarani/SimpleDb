@@ -13,9 +13,6 @@ describe('simple database', () => {
     await fs.mkdir(TEST_DIR, { recursive: true });
   });
 
-  //Get id will need to
-  //Write a test of get that checks for ENOENT in the implementation, bit converts it to a Not found error (see the copy file demo)
-
   it ('should get the id', async () => {
     const dataBase = new SimpleDb(TEST_DIR);
     const object = { 
@@ -24,8 +21,19 @@ describe('simple database', () => {
     };
     const srcPath = path.join(TEST_DIR, `${object.id}.txt`);
     await fs.writeFile(srcPath, JSON.stringify(object));
-    return expect(dataBase.get(object.id)).toEqual(object);
+    return expect(await dataBase.get(object.id)).toEqual(object);
 
   });
+  it ('should save the file', async () => {
+    const dataBase = new SimpleDb(TEST_DIR);
+    const object = { 
+      id: '1',
+      text: 'hakuna matata' 
+    };
+    return dataBase
+      .save(object)
+      .then(() => expect(object.id).toEqual(expect.any(String)));
 
+
+  });
 });
