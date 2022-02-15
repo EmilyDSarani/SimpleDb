@@ -19,7 +19,7 @@ describe('simple database', () => {
       id: '1',
       text: 'hakuna matata' 
     };
-    const srcPath = path.join(TEST_DIR, `${object.id}.txt`);
+    const srcPath = path.join(TEST_DIR, `${object.id}.json`);
     await fs.writeFile(srcPath, JSON.stringify(object));
     return expect(await dataBase.get(object.id)).toEqual(object);
 
@@ -35,11 +35,11 @@ describe('simple database', () => {
       .then(() => expect(object.id).toEqual(expect.any(String)));
   });
 
-  it('should get all files', async () => {
+  it('should get all files',  () => {
     const db = new SimpleDb(TEST_DIR);
     const obj1 = { text: 'hakuna matata' };
     const obj2 = { text: 'be our guest' };
-    
+
     const expectation = [{
       id: expect.any(String),
       text: expect.any(String),
@@ -51,7 +51,7 @@ describe('simple database', () => {
     ];
 
 
-    await db
+    return db
       .save(obj1)
       .then(() => db.save(obj2))
       .then(() => db.getAll())
